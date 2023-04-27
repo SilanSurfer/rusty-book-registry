@@ -6,7 +6,7 @@ use std::net::TcpListener;
 #[derive(Deserialize)]
 struct FormData {
     email: String,
-    name: String
+    name: String,
 }
 
 async fn health_check() -> HttpResponse {
@@ -22,9 +22,9 @@ pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
         App::new()
             .route("/health_check", web::get().to(health_check))
             .route("/subscriptions", web::post().to(subscribe))
-        })
-        .listen(listener)?
-        .run();
+    })
+    .listen(listener)?
+    .run();
 
     Ok(server)
 }
