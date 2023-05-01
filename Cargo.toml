@@ -15,6 +15,7 @@ name = "rusty-book-registry"
 actix-web = "4"
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"]}
+config = "0.13"
 
 [dependencies.sqlx]
 version = "0.5.7"
