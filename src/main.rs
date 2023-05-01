@@ -1,4 +1,4 @@
-use rusty_book_registry::run;
+use rusty_book_registry::startup::run;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
