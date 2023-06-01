@@ -1,6 +1,20 @@
+use once_cell::sync::Lazy;
 use rusty_book_registry::configration::{get_configuration, DatabaseSettings};
+use rusty_book_registry::telemetry::{get_subscriber, init_subscriber};
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use std::net::TcpListener;
+
+static TRACING: Lazy<()> = Lazy::new(|| {
+    let default_filter_lvl = "info".to_string();
+    let subscriber_name = "test".to_string();
+    if std::env::var("TEST_LOG").is_ok() {
+        let subscriber = get_subscriber(subscriber_name, default_filter_lvl, std::io::stdout);
+        init_subscriber(subscriber);
+    } else {
+        let subscriber = get_subscriber(subscriber_name, default_filter_lvl, std::io::sink);
+        init_subscriber(subscriber);
+    }
+});
 
 struct TestApp {
     pub address: String,
@@ -8,6 +22,8 @@ struct TestApp {
 }
 
 async fn spawn_app() -> TestApp {
+    Lazy::force(&TRACING);
+
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind to random port.");
     let port = listener
         .local_addr()
