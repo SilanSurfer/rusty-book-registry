@@ -115,7 +115,7 @@ async fn subscribe_returns_a_200_for_valid_form_data() {
 }
 
 #[tokio::test]
-async fn subscribe_returns_a_200_when_fields_are_present_but_empty() {
+async fn subscribe_returns_a_400_when_fields_are_present_but_empty() {
     // Arrange
     let app = spawn_app().await;
     let client = reqwest::Client::new();
@@ -136,9 +136,9 @@ async fn subscribe_returns_a_200_when_fields_are_present_but_empty() {
             .expect("Failed to execute request");
         // Assert
         assert_eq!(
-            200,
+            400,
             response.status().as_u16(),
-            "The API failed at payload: {}",
+            "The API didn't return 400 Bad Request when payload was: {}",
             description
         );
     }
