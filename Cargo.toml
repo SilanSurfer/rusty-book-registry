@@ -45,3 +45,6 @@ features = [
 once_cell = "1.17"
 reqwest = "0.11"
 claim = "0.5"
+fake = "~2.3"
+quickcheck = "0.9"
+quickcheck_macros = "0.9"
